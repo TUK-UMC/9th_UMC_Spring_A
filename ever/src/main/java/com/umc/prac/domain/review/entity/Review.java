@@ -36,4 +36,11 @@ public class Review {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replies = new ArrayList<>();
+
+    @Builder
+    public Review(String content, Member member, Store store) {
+        this.content = content;
+        this.member = member;
+        this.store = store;
+    }
 }
