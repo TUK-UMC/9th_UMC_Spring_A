@@ -1,11 +1,14 @@
 package com.umc.study.api.review.Service;
 
+import com.umc.study.api.review.dto.ReviewResponseDto;
 import com.umc.study.api.review.repository.ReviewRepository;
 import com.umc.study.domain.review.entity.Review;
 import com.umc.study.domain.member.entity.Member;
 import com.umc.study.domain.store.entity.Store;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,11 @@ public class ReviewService {
         .build();
 
     return reviewRepository.save(review).getId();
+  }
+
+  @Transactional(readOnly = true)
+  public Page<ReviewResponseDto> getReviewsWithFilters(String storeName, Integer ratingFilter, Pageable pageable) {
+    return reviewRepository.findReviewsWithFilters(storeName, ratingFilter, pageable);
   }
 
 }
