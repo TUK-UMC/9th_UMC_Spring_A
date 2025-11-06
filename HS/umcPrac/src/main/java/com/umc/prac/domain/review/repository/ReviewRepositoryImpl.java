@@ -3,7 +3,6 @@ package com.umc.prac.domain.review.repository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.umc.prac.domain.review.entity.QReply;
 import com.umc.prac.domain.review.entity.QReview;
 import com.umc.prac.domain.review.service.dto.MyReviewDto;
 import org.springframework.data.domain.Page;
@@ -25,7 +24,6 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     @Override
     public Page<MyReviewDto> findMyReviews(Long memberId, Long storeId, String storeName, Integer starGroup, Pageable pageable) {
         QReview review = QReview.review;
-        QReply reply = QReply.reply;
 
         Double minStar = null;
         Double maxStar = null;
@@ -48,7 +46,6 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                         review.createdAt
                 ))
                 .from(review)
-                .leftJoin(review.replies, reply).on(reply.review.eq(review))
                 .where(
                         review.member.memberId.eq(memberId),
                         storeIdEq(storeId, review),
