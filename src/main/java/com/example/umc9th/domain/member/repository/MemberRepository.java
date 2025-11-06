@@ -9,7 +9,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     //마이페이지 화면 뷰
     interface MyPageView {
-        String getNickname();
         String getEmail();
         String getPhoneNumber();
         Integer getPoint();   // 엔티티 타입에 맞춰 Integer/Long 등으로 맞추기
