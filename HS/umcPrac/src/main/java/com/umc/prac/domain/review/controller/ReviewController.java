@@ -2,6 +2,8 @@ package com.umc.prac.domain.review.controller;
 
 import com.umc.prac.domain.review.service.ReviewQueryService;
 import com.umc.prac.domain.review.service.dto.MyReviewDto;
+import com.umc.prac.global.apiPayload.ApiResponse;
+import com.umc.prac.global.apiPayload.code.SuccessCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +27,7 @@ public class ReviewController {
     // 예) GET /api/v1/reviews/me?memberId=1&storeId=2&starGroup=4&page=0&size=10
     //     starGroup: 5 | 4 | 3 | 2 | 1 (5는 5.0만, 그 외는 N.0 ~ N.9)
     @GetMapping("/me")
-    public Page<MyReviewDto> getMyReviews(
+    public ApiResponse<Page<MyReviewDto>> getMyReviews(
             @RequestParam Long memberId,
             @RequestParam(required = false) Long storeId,
             @RequestParam(required = false) String storeName,
@@ -34,7 +36,8 @@ public class ReviewController {
             @RequestParam(defaultValue = "10") int size
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        return reviewQueryService.getMyReviews(memberId, storeId, storeName, starGroup, pageable);
+        Page<MyReviewDto> reviews = reviewQueryService.getMyReviews(memberId, storeId, storeName, starGroup, pageable);
+        return ApiResponse.onSuccess(SuccessCode.REVIEW_GET_SUCCESS, reviews);
     }
 }
 
