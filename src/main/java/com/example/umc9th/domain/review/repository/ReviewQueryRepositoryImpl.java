@@ -2,7 +2,7 @@ package com.example.umc9th.domain.review.repository;
 
 import com.example.umc9th.domain.member.entity.QMember;
 import com.example.umc9th.domain.review.dto.ReviewDto;
-import com.example.umc9th.domain.review.entity.QReivew;
+import com.example.umc9th.domain.review.entity.QReview;
 import com.example.umc9th.domain.review.enums.ReviewEnum;
 import com.example.umc9th.domain.store.entity.QStore;
 import com.querydsl.core.types.Projections;
@@ -32,15 +32,15 @@ public class ReviewQueryRepositoryImpl implements ReviewQueryRepository {
                 .select(Projections.constructor(ReviewDto.class,
                         review.id,
                         store.name,
-                        review.star,
+                        review.rate,
                         review.content,
                         review.createdAt
                 ))
                 .from(review)
                 .join(review.store, store)
-                .join(review.author, member)
+                .join(review.member, member)
                 .where(
-                        review.author.id.eq(authorId),
+                        review.member.id.eq(authorId),
                         storeNameEq(storeName),
                         starBucketCond(bucket)
                 )
@@ -52,9 +52,9 @@ public class ReviewQueryRepositoryImpl implements ReviewQueryRepository {
         JPAQuery<Long> countQuery = queryFactory
                 .select(review.count())
                 .from(review)
-                .join(review.author, member)
+                .join(review.member, member)
                 .where(
-                        review.author.id.eq(authorId),
+                        review.member.id.eq(authorId),
                         storeNameEq(storeName),
                         starBucketCond(bucket)
                 );
@@ -69,11 +69,11 @@ public class ReviewQueryRepositoryImpl implements ReviewQueryRepository {
     private BooleanExpression starBucketCond(ReviewEnum b) {
         if (b == null || b == ReviewEnum.ALL) return null;
         return switch (b) {
-            case FIVE  -> review.star.eq(5.0);
-            case FOUR  -> review.star.goe(4.0).and(review.star.lt(5.0));
-            case THREE -> review.star.goe(3.0).and(review.star.lt(4.0));
-            case TWO   -> review.star.goe(2.0).and(review.star.lt(3.0));
-            case ONE   -> review.star.goe(1.0).and(review.star.lt(2.0));
+            case FIVE  -> review.rate.eq(5.0f);
+            case FOUR  -> review.rate.goe(4.0f).and(review.rate.lt(5.0f));
+            case THREE -> review.rate.goe(3.0f).and(review.rate.lt(4.0f));
+            case TWO   -> review.rate.goe(2.0f).and(review.rate.lt(3.0f));
+            case ONE   -> review.rate.goe(1.0f).and(review.rate.lt(2.0f));
             default    -> null;
         };
     }

@@ -60,20 +60,19 @@ tasks.named('test') {
 }
 
 // QueryDSL 관련 설정
-// generated/querydsl 폴더 생성 & 삽입
-def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
+def querydslDir = "$buildDir/generated/querydsl"
 
-// 소스 세트에 생성 경로 추가 (구체적인 경로 지정)
+// 소스 세트에 생성 경로 추가
 sourceSets {
     main.java.srcDirs += [ querydslDir ]
 }
 
 // 컴파일 시 생성 경로 지정
-tasks.withType(JavaCompile).configureEach {
-    options.generatedSourceOutputDirectory.set(querydslDir)
+tasks.withType(JavaCompile) {
+    options.getGeneratedSourceOutputDirectory().set(file(querydslDir))
 }
 
 // clean 태스크에 생성 폴더 삭제 로직 추가
-clean.doLast {
-    file(querydslDir).deleteDir()
+clean {
+    delete file(querydslDir)
 }
