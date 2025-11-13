@@ -16,4 +16,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // PK로 조회 (마이페이지: 내 정보 한 건)
     Optional<MyPageView> findProjectedById(Long id);
+
+    // 이메일 중복 체크
+    boolean existsByEmail(String email);
 }
