@@ -21,6 +21,9 @@ public class Review {
     @Lob
     private String content;
 
+    // 리뷰 별점 (예: 4.5)
+    private Double star;
+
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,11 +39,4 @@ public class Review {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replies = new ArrayList<>();
-
-    @Builder
-    public Review(String content, Member member, Store store) {
-        this.content = content;
-        this.member = member;
-        this.store = store;
-    }
 }
