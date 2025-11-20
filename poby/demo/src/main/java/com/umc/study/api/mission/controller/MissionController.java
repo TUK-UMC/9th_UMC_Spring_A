@@ -26,4 +26,10 @@ public class MissionController {
         Page<MemberMissionResponseDto> missions = missionService.getMyMissions(memberId, isComplete, pageable);
         return CommonResponse.of(ResultCode.OK, missions);
     }
+    
+    @PostMapping("/{missionId}/challenge")
+    public CommonResponse<?> challengeMission(@PathVariable Long missionId) {
+        missionService.challengeMissionWithUser1(missionId);
+        return CommonResponse.of(ResultCode.MISSION_CHALLENGE_OK, null);
+    }
 }
