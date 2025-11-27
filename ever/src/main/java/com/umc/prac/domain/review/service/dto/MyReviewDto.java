@@ -8,9 +8,11 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 public class MyReviewDto {
-    private Long id;
+    private Long reviewId;
+    private String memberName;
     private String content;
     private Double star;
+    private Long storeId;
     private String storeName;
     private LocalDateTime createdAt;
 }

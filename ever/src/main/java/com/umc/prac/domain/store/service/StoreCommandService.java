@@ -112,6 +112,21 @@ public class StoreCommandService {
         return new MemberMissionResponse(saved.getMemberMissionId(), member.getMemberId(), mission.getMissionId(), saved.getIsComplete());
     }
 
+    // 특정 회원미션을 완료 처리하고 변경된 상태 반환
+    public MemberMissionResponse completeMemberMission(Long memberMissionId) {
+        MemberMission memberMission = memberMissionRepository.findById(memberMissionId)
+                .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "존재하지 않는 회원 미션입니다."));
+
+        if (memberMission.getIsComplete()) {
+            // 이미 완료된 미션이면 conflict
+            throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.CONFLICT, "이미 완료된 미션입니다.");
+        }
+
+        memberMission.setIsComplete(true);
+        MemberMission saved = memberMissionRepository.save(memberMission);
+        return new MemberMissionResponse(saved.getMemberMissionId(), saved.getMember().getMemberId(), saved.getMission().getMissionId(), saved.getIsComplete());
+    }
+
     private Location getLocation(Long locationId) {
         return locationRepository.findById(locationId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 지역입니다."));
@@ -132,4 +147,3 @@ public class StoreCommandService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 미션입니다."));
     }
 }
-

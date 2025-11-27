@@ -34,10 +34,21 @@ public enum SuccessCode implements BaseSuccessCode {
             "REVIEW200",
             "리뷰 조회에 성공하였습니다."),
 
+    MISSION_GET_SUCCESS(HttpStatus.OK,
+            "MISSION200",
+            "가게 미션 목록 조회에 성공하였습니다."),
+
+    MEMBER_MISSION_GET_SUCCESS(HttpStatus.OK,
+            "MEMBER_MISSION200",
+            "회원 진행중인 미션 목록 조회에 성공하였습니다."),
+
+    MEMBER_MISSION_COMPLETE_SUCCESS(HttpStatus.OK,
+            "MEMBER_MISSION200_1",
+            "진행중인 미션을 완료 처리하였습니다."),
+
     ;
 
     private final HttpStatus status;
     private final String code;
     private final String message;
 }
-
