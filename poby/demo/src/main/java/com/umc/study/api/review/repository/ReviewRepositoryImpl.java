@@ -84,4 +84,33 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
         return new PageImpl<>(content, pageable, total);
     }
+
+    @Override
+    public Page<ReviewResponseDto> findByMemberId(Long memberId, Pageable pageable) {
+        JPAQuery<ReviewResponseDto> query = queryFactory
+                .select(Projections.constructor(ReviewResponseDto.class,
+                        review.id,
+                        review.content,
+                        review.rating,
+                        store.name,
+                        review.createdAt))
+                .from(review)
+                .join(review.store, store)
+                .where(review.member.id.eq(memberId)
+                        .and(review.isDeleted.eq(false)))
+                .orderBy(review.createdAt.desc());
+
+        List<ReviewResponseDto> content = query
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long total = queryFactory
+                .selectFrom(review)
+                .where(review.member.id.eq(memberId)
+                        .and(review.isDeleted.eq(false)))
+                .fetchCount();
+
+        return new PageImpl<>(content, pageable, total);
+    }
 }
