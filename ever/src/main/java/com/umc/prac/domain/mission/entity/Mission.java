@@ -14,6 +14,7 @@ import java.util.List;
 @Table(name = "mission")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@Builder
 public class Mission {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +27,14 @@ public class Mission {
 
     private Integer point;
 
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
+    @Builder.Default
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberMission> memberMissions = new ArrayList<>();
 }

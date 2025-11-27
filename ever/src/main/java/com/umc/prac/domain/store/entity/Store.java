@@ -12,6 +12,7 @@ import java.util.List;
 @Table(name = "store")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@Builder
 public class Store {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +26,11 @@ public class Store {
     @JoinColumn(name = "location_id")
     private Location location;
 
+    @Builder.Default
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mission> missions = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 }
