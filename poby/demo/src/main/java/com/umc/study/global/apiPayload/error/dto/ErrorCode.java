@@ -28,6 +28,10 @@ public enum ErrorCode implements BaseStatus {
     
     // Mission Errors
     MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION_404", "미션을 찾을 수 없습니다."),
+    MEMBER_MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER_MISSION_404", "진행중인 미션을 찾을 수 없습니다."),
+    
+    // Page Errors
+    INVALID_PAGE_NUMBER(HttpStatus.BAD_REQUEST, "PAGE_400", "페이지 번호는 1 이상이어야 합니다."),
     ;
 
     private final HttpStatus httpStatus;

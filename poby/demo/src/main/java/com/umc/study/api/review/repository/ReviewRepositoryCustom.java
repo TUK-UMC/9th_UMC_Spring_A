@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface ReviewRepositoryCustom {
     Page<ReviewResponseDto> findReviewsWithFilters(String storeName, Integer ratingFilter, Pageable pageable);
+    Page<ReviewResponseDto> findByMemberId(Long memberId, Pageable pageable);
 }
