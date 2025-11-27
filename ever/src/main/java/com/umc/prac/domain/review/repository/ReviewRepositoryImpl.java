@@ -40,8 +40,10 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .select(Projections.constructor(
                         MyReviewDto.class,
                         review.reviewId,
+                        review.member.name,
                         review.content,
                         review.star,
+                        review.store.storeId,
                         review.store.name,
                         review.createdAt
                 ))
