@@ -4,6 +4,7 @@ import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc9th.global.apiPayload.code.GeneralErrorCode;
 import com.example.umc9th.global.apiPayload.exception.GeneralException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,6 +22,20 @@ public class GeneralExceptionAdvice {
                 .body(ApiResponse.onFailure(
                                 ex.getCode(),
                                 null
+                        )
+                );
+    }
+
+    // Validation 예외 처리 (@CheckPage 등)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<String>> handleConstraintViolation(
+            ConstraintViolationException ex
+    ) {
+        BaseErrorCode code = GeneralErrorCode.INVALID_PAGE;
+        return ResponseEntity.status(code.getStatus())
+                .body(ApiResponse.onFailure(
+                                code,
+                                ex.getMessage()
                         )
                 );
     }

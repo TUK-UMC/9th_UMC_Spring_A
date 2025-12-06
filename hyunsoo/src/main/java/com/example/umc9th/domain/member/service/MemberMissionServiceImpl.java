@@ -10,6 +10,9 @@ import com.example.umc9th.domain.member.repository.mapping.MemberMissionReposito
 import com.example.umc9th.domain.mission.entity.Mission;
 import com.example.umc9th.domain.mission.repository.MissionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,5 +54,22 @@ public class MemberMissionServiceImpl implements MemberMissionService {
 
         // 6. 응답 DTO 변환
         return memberMissionConverter.toChallengeResultDTO(savedMemberMission);
+    }
+
+    @Override
+    public MemberMissionResponseDTO.MissionListDTO getMyOngoingMissions(Integer page) {
+        // 1. 하드코딩된 유저 조회
+        Member member = memberRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
+
+        // 2. 페이징 설정 (page는 1-based, PageRequest는 0-based)
+        Pageable pageable = PageRequest.of(page - 1, 10);
+
+        // 3. 진행중인 미션 목록 조회 (isComplete = false)
+        Page<MemberMission> memberMissionPage = memberMissionRepository
+                .findByMemberIdAndIsCompleteFalseOrderByCreatedAtDesc(member.getId(), pageable);
+
+        // 4. DTO 변환
+        return memberMissionConverter.toMissionListDTO(memberMissionPage);
     }
 }
