@@ -5,6 +5,7 @@ import com.example.umc9th.domain.member.dto.MemberResDTO;
 import com.example.umc9th.domain.member.dto.MyReviewResponseDTO;
 import com.example.umc9th.domain.member.entity.Member;
 import com.example.umc9th.domain.review.entity.Review;
+import com.example.umc9th.global.auth.enums.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -24,9 +25,22 @@ public class MemberConverter {
                 .build();
     }
 
+    // Login 응답 DTO 변환
+    public static MemberResDTO.LoginDTO toLoginDTO(
+            Member member,
+            String accessToken
+    ){
+        return MemberResDTO.LoginDTO.builder()
+                .memberId(member.getId())
+                .accessToken(accessToken)
+                .build();
+    }
+
     // DTO -> Entity
     public static Member toMember(
-            MemberReqDTO.JoinDTO dto
+            MemberReqDTO.JoinDTO dto,
+            String password,
+            Role role
     ){
         return Member.builder()
                 .name(dto.name())
@@ -34,6 +48,10 @@ public class MemberConverter {
                 .address(dto.address())
                 .detailAddress(dto.specAddress())
                 .gender(dto.gender())
+                .email(dto.email()) // 추가된 코드
+                .password(password) // 추가된 코드
+                .role(role)
+                .point(0)  // 이 줄 추가!// 추가된 코드
                 .build();
     }
 
