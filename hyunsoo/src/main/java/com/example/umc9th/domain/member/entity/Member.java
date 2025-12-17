@@ -5,6 +5,7 @@ import com.example.umc9th.domain.member.entity.mapping.MemberFood;
 import com.example.umc9th.domain.member.entity.mapping.MemberMission;
 import com.example.umc9th.domain.member.entity.mapping.MemberTerm;
 import com.example.umc9th.domain.review.entity.Review;
+import com.example.umc9th.global.auth.enums.Role;
 import com.example.umc9th.global.auth.enums.SocialType;
 import com.example.umc9th.global.jpa.BaseEntity;
 import jakarta.persistence.*;
@@ -26,21 +27,20 @@ public class Member extends BaseEntity {
 
     @Column(nullable = false) private String name;
 
-    @Enumerated(EnumType.STRING) @Column(nullable = false)
-    private Gender gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;  // nullable 허용
 
     private LocalDate birth;
 
     // 상세주소(문자열)
-    @Column(nullable = false)
-    private String detailAddress;
+    private String detailAddress;  // nullable 허용
 
     // 광역주소(열거형)
-    @Enumerated(EnumType.STRING) @Column(nullable = false)
-    private com.example.umc9th.domain.store.enums.Address address;
+    @Enumerated(EnumType.STRING)
+    private com.example.umc9th.domain.store.enums.Address address;  // nullable 허용
 
-    @Enumerated(EnumType.STRING) @Column(nullable = false)
-    private SocialType socialType;
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;  // nullable 허용
 
     @Column(nullable = false)
     private Integer point;
@@ -66,4 +66,10 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

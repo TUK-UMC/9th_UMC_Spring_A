@@ -29,4 +29,10 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
 
     // 최신순 페이징
     Page<MyMissionView> findByMember_IdOrderByCreatedAtDesc(Long memberId, Pageable pageable);
+
+    // 이미 도전중인 미션인지 확인
+    boolean existsByMemberIdAndMissionId(Long memberId, Long missionId);
+
+    // 진행중인 미션 목록 조회 (isComplete = false)
+    Page<MemberMission> findByMemberIdAndIsCompleteFalseOrderByCreatedAtDesc(Long memberId, Pageable pageable);
 }

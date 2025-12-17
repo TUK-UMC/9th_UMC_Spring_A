@@ -13,6 +13,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
         String getPhoneNumber();
         Integer getPoint();   // 엔티티 타입에 맞춰 Integer/Long 등으로 맞추기
     }
+    Optional<Member> findByEmail(String email);
 
     // PK로 조회 (마이페이지: 내 정보 한 건)
     Optional<MyPageView> findProjectedById(Long id);

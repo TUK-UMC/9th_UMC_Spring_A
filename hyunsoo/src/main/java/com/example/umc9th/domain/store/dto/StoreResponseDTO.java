@@ -1,4 +1,4 @@
-package com.example.umc9th.domain.member.dto;
+package com.example.umc9th.domain.store.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,16 +7,17 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-public class MemberResponseDTO {
+public class StoreResponseDTO {
 
     @Getter
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class SignUpResultDTO {
-        private Long memberId;
-        private String email;
-        private String username;
+    public static class CreateResultDTO {
+        private Long storeId;
+        private String storeName;
+        private String locationName;
+        private String managerNumber;
         private LocalDateTime createdAt;
     }
 }

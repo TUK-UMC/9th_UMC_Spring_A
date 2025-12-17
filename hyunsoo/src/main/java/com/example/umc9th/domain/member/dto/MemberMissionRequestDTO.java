@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class MemberRequestDTO {
+public class MemberMissionRequestDTO {
 
     @Getter
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class SignUpDTO {
-        private String username;
-        private String password;
-        private String email;
+    public static class ChallengeDTO {
+        private Long missionId;  // 도전할 미션 ID
     }
 }
