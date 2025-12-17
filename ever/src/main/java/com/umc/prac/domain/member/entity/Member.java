@@ -1,10 +1,12 @@
 package com.umc.prac.domain.member.entity;
 
 import com.umc.prac.domain.member.enumtype.Gender;
+import com.umc.prac.domain.member.enumtype.Role;
 import com.umc.prac.domain.member.enumtype.SocialType;
 import com.umc.prac.domain.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +19,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Member {
 
     @Id
@@ -24,6 +27,12 @@ public class Member {
     private Long memberId;
 
     private String name;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private Gender gender; // MALE, FEMALE, NONE
@@ -36,6 +45,9 @@ public class Member {
 
     private String socialEmail;
     private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();

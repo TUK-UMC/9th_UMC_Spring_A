@@ -8,11 +8,13 @@ import lombok.*;
 @Table(name = "member_mission")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@Builder
 public class MemberMission {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberMissionId;
 
+    @Builder.Default
     private Boolean isComplete = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
