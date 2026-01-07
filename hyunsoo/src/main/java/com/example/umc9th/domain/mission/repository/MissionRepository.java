@@ -30,4 +30,7 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             @Param("today") LocalDate today,
             Pageable pageable
     );
+
+    // 특정 가게의 미션 목록 조회 (페이징, 최신순)
+    Page<Mission> findByStoreIdOrderByCreatedAtDesc(Long storeId, Pageable pageable);
 }
